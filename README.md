@@ -191,3 +191,46 @@ Response
 ```
 { "answer" : "gray" }
 ```
+
+
+### Dataset
+
+- COCO Image set을 이용하여 이미지들을 구성하였습니다.
+
+- 6가지의 카테고리로 나누었고, 그 안에서 또 세부적으로 나누었습니다.
+
+### Iamge Categories
+
+ ┣ 📂ANIMAL
+ 
+ ┃ ┣ 📂bear, bird, cat, cow, dog, elephant, giraffe, horse, sheep, zebra
+ 
+ ┣ 📂ETC
+ 
+ ┃ ┣ 📂person, stop_sign, umbrella
+ 
+ ┣ 📂FOOD
+ 
+ ┃ ┣ 📂apple, banana, cake, carrot, donut, orange, pizza
+ 
+ ┣ 📂FURNITURE
+ 
+ ┃ ┣ 📂bed, bench, book, cell_phone, chair, clock, scissors, table, teddy_bear, tv
+ 
+ ┣ 📂SPORTS
+ 
+ ┃ ┣ 📂skateboard, skis, snowboard, tennis
+ 
+ ┣ 📂VEHICLE
+ 
+ ┃ ┣ 📂airplane, bicycle, boat, bus, car, motorcycle, train, truck
+ 
+ 
+<br>
+- 상위 카테고리 : ANIMAL, ETC, FOOD, FURNITURE, SPORTS, VEHICLE
+
+- 하위 카테고리 : 상위 폴더 밑에 있는 카테고리 (bear, bird, cat ...) 
+
+- 하위 카테고리 안에 각각 100가지의 그림들이 들어가 있습니다.
+
+- 난이도 조절에서 선택되는 같은 카테고리의 기준은 하위 카테고리입니다.
