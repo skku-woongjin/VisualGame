@@ -165,6 +165,17 @@ pip install -r requirements.txt
 
 4. 해당 그림을 맞춘다면, 다음 게임으로 넘어가지만, 틀릴 경우 목숨이 감소합니다.
 
+<br>
+<br>
+<br>
+
+## 시연 영상
+
+- 파일 용량 이슈로, 2배속으로 진행하였습니다.
+
+https://user-images.githubusercontent.com/104834390/209529166-473830ea-8ba8-422f-a445-8dd98aa598b1.mov
+
+
 ## API 설명
 
 ### /reload [POST]
