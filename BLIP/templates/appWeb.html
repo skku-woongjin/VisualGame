@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>HTML CSS Left Right Split</title>
+    <link rel = "stylesheet" href="{{ url_for('static', filename= 'divide.css') }}">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script type="text/javascript"> 
+      var bDisplay = true; function doDisplay(){ 	
+          var con = document.getElementById("myDIV"); 	
+          if(con.style.display=='none'){ 		
+              con.style.display = 'block'; 	
+          }else{ 		
+              con.style.display = 'none'; 	
+          } 
+      } 
+  </script> 
+
+  </head>
+  <body>
+
+
+    <div>
+      <div class="left"> <!--image & caption -->
+        <h1>Image-to-Text Generation</h1>
+
+        <a href="javascript:doDisplay();"> > 사용 설명서</a><br/><br/> 
+	<div id="myDIV"> 	
+    <p>이 사이트는 그림세트의 비율에 따른 난이도를 측정하기 위한 사이트입니다.<br>
+    또한 그림을 보면 밑에 자막(caption)이 달려있는데, 이것은 전부 DB화 하여 저장한 것입니다.<br>
+  만약 다른 그림에 대한 자막을 만들고 싶으면, [Caption 생성]이라는 버튼을 통해 자막을 생성하는 것 또한 가능합니다.</p>
+		<p>size 3, 4, 5는 그림set의 사이즈를 3x3, 4x4, 5x5로 결정하는 버튼입니다.<br>
+    그 밑에 있는 프로그레스바는 그림의 주제에 따른 랜덤성의 비율을 결정할 수 있도록 합니다.<br>
+  예를 들어 0으로 지정을 해놓고 시작 버튼을 누른다면, 같은 카테고리에 있는 사진들만 배치될 것입니다.<br>
+[RANDOMNESS]버튼은 이미 그림 세트가 나왔을 때, 정답을 고정시키고 다른 그림 세트를 받고 싶을 때 클릭하는 버튼입니다.<br>
+[START & RESET]버튼은 그림 세트의 크기와 랜덤성을 결정한 뒤 클릭하면, 그림 세트가 나타도록 하는 버튼입니다.</p>
+<p>
+  [EASY]와 [HARD]버튼은 임의로 난이도를 부여한 것입니다.<br>
+  그림 세트는 3x3 기준이며, EASY는 70%의 랜덤성을 가지고 있고, HARD는 30%의 랜덤성을 가지고 있습니다.<br>
+</p> 
+<p>
+  Image Captioning 영역은 원하는 그림의 자막을 생성해주는 공간입니다. <br>
+  자막 생성을 위해 visual question answering이 가능한 AI 모델인 <span style = "background-color:red">BLIP</span>을 사용하였습니다.<br>
+  "파일 선택"을 통해 원하는 이미지 파일을 첨부하고 [CAPTION 생성]버튼을 선택하면 일정 시간 후에 자막이 생성됩니다.<br>
+</p>
+<p>
+  카테고리에는 각각의 카테고리에 관련한 정보가 있습니다.<br>
+  이 중에서 본인이 원하는 카테고리의 사진들만 첨부하여 그림 세트를 생성할 수 있습니다.<br>
+  1. 원하는 그림 카테고리를 선택하고 [NEXT]버튼을 클릭합니다.<br>
+  2. 원하는 이미지 개수를 선택하고 [EXECUTION] 버튼을 클릭합니다. <br>
+</p>
+<h5>*맨 위에 있는 사용 설명서 버튼을 클릭하면 설명서를 숨길 수 있습니다.*</h5>
+
+	</div> 
+        <div id = 'picResult' ></div>
+        <div id = 'answer'></div>
+        <br />
+        <img id="preview" width="150%" height="70%"/>
+        <h1>Caption : <span id="caption_generate"></span></h1>
+      </div>
+        <div class = "right">
+          <p><h4>SIZE (3x3, 4x4, 5x5)</h4>
+          <input type = "radio" name = "size" value = "3" onclick="getsize(event)"/>3
+          <input type = "radio" name = "size" value = "4" onclick="getsize(event)"/>4
+          <input type = "radio" name = "size" value = "5" onclick="getsize(event)"/>5
+          <div id = "size">
+          </p>
+        </div>
+
+          <p>
+          <div class = "seek-bar">
+            <div id = "circle" class ="circle">
+              <span>0</span>              
+            </div>
+          </div>
+
+          <button class = "w-btn w-btn-indigo" type = "button" onclick='getRandom()'>RANDOMNESS(정답 고정)</button>
+          <button class = "w-btn w-btn-indigo" type = "button" onclick='getReset()'>START & RESET</button>
+          </p>
+        
+        <br>
+        <div class="find-btn">
+          <h2>(3x3 기준)</h2>
+          <button class = "w-btn w-btn-indigo" type = "button" onclick='getEasy()'>EASY</button>
+          <button class = "w-btn w-btn-indigo" type = "button" onclick='getHard()'>HARD</button>
+      </div>
+      <div class = "right3">
+        <h2>Image Captioning (BLIP)</h2>
+        <input type="file" onchange="readURL(this);">
+        <button class = "w-btn w-btn-indigo" type = "button" onclick ='getCaption()'>CAPTION 생성</button>
+      </div>
+
+        <div class = "right4">
+          <h3>카테고리(최대 9가지 선택)</h3>
+          <div style="overflow:auto; width:100%; height:200px;">
+          <h4>ANIMAL</h4>
+            <input type='checkbox' name='inlist' class="ANIMAL"  
+            value='BIRD' />bird <!-- onclick='getCheckboxValue()' 있으면 누르는 즉시 id에 뜸-->
+            <input type='checkbox' name='inlist' class="ANIMAL" 
+            value='CAT' />cat
+            <input type='checkbox' name='inlist'  class="ANIMAL"
+            value='DOG' />dog
+            <input type='checkbox' name='inlist' class="ANIMAL"
+            value='HORSE' />horse
+            <input type='checkbox' name='inlist' class="ANIMAL"
+            value='SHEEP' />sheep
+            <input type='checkbox' name='inlist' class="ANIMAL"
+            value='COW' />cow
+            <input type='checkbox' name='inlist' class="ANIMAL"
+            value='ELEPHANT' />elephant
+            <input type='checkbox' name='inlist' class="ANIMAL"
+            value='BEAR' />bear
+            <input type='checkbox' name='inlist' class="ANIMAL"
+            value='ZEBRA' />zebra
+            <input type='checkbox' name='inlist' class="ANIMAL"
+            value='GIRAFFE' />giraffe
+          <h4>VEHICLE</h4>
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='BICYCLE' />bicycle <!-- onclick='getCheckboxValue()' 있으면 누르는 즉시 id에 뜸-->
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='CAR' />car
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='MOTORCYCLE' />motorcycle
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='AIRPLANE' />airplane
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='BUS' />bus
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='TRAIN' />train
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='TRUCK' />truck
+            <input type='checkbox' name='inlist' class ="VEHICLE"
+            value='BOAT' />boat
+          <h4>SPORTS</h4>
+            <input type='checkbox' name='inlist' class ="SPORTS"
+            value='SKIS' />skis 
+            <input type='checkbox' name='inlist' class ="SPORTS"
+            value='SNOWBOARD' />snowboard
+            <input type='checkbox' name='inlist' class ="SPORTS"
+            value='TENNIS' />tennis
+            <input type='checkbox' name='inlist' class ="SPORTS"
+            value='SKATEBOARD' />skateboard
+          <h4>FOOD</h4>
+            <input type='checkbox' name='inlist' class ="FOOD" 
+            value='APPLE' />apple <!-- onclick='getCheckboxValue()' 있으면 누르는 즉시 id에 뜸-->
+            <input type='checkbox' name='inlist' class ="FOOD"
+            value='BANANA' />banana
+            <input type='checkbox' name='inlist' class ="FOOD"
+            value='ORANGE' />orange
+            <input type='checkbox' name='inlist' class ="FOOD"
+            value='CARROT' />carrot
+            <input type='checkbox' name='inlist' class ="FOOD"
+            value='PIZZA' />pizza
+            <input type='checkbox' name='inlist' class ="FOOD"
+            value='DONUT' />donut
+            <input type='checkbox' name='inlist' class ="FOOD"
+            value='CAKE' />cake
+          <h4>FURNITURE</h4>
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='CHAIR' />chair <!-- onclick='getCheckboxValue()' 있으면 누르는 즉시 id에 뜸-->
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='BED' />bed
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='TABLE' />table
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='TV' />tv
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='CELL_PHONE' />cell_phone
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='BOOK' />book
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='CLOCK' />clock
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='SCISSORS' />scissors
+            <input type='checkbox' name='inlist' class="FURNITURE"
+            value='TEDDY_BEAR' />teddy_bear
+          <h4>ETC</h4>
+            <input type='checkbox' name='inlist' class="ETC" 
+            value='PERSON' />person <!-- onclick='getCheckboxValue()' 있으면 누르는 즉시 id에 뜸-->
+            <input type='checkbox' name='inlist' class="ETC" 
+            value='STOP_SIGN' />stop_sign
+            <input type='checkbox' name='inlist' class="ETC" 
+            value='UMBRELLA' />umbrella
+        </div>
+            <button class = "w-btn w-btn-indigo" type = "button" onclick='getCheckboxValue()'>NEXT</button>
+        <div>
+
+          <h3>이미지 개수 선택하기</h3>
+          <div style="overflow:auto; width:100%; height:100px;">
+            <div id = 'result'></div>
+          </div>          
+        </div>    
+
+      </div>
+
+      <div>
+        <br>
+        <br>
+          <button class = "w-btn w-btn-indigo" type = "button" onclick='function_next()'>EXECUTION</button> 
+      </div>        
+      </div>
+    </div>
+  </div>
+</div>
+    <script src = "./static/checklistWeb.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+  </body>
+</html>
