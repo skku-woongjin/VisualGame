@@ -13,6 +13,23 @@
 <br>
 <br>
 
+## BLIP : Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation
+
+<br>
+
+[BLIP 논문](https://arxiv.org/abs/2201.12086)
+
+[BLIP Github](https://github.com/salesforce/BLIP)
+
+Vision-Language Pre-training(VLP)는 vision-language taks의 성능을 매우 향상시켜주었다. 하지만 현재 존재하는 pre-trained model들은 웹에서 수집된 image-text에 대한 dataset을 이용하는데, 이는 최적의 상태가 아닌 단점이 있다. 그리하여 소개될 모델인 ‘BLIP’은 새로운 VLP framework로, 불필요한 웹 data를 ‘bootstrapping’하는 방식을 이용하여 불필요한 정보를 효과적으로 제거하는 방식을 이용하였다.
+
+<br>
+
+![123](https://user-images.githubusercontent.com/104834390/209679867-8bfb6d54-2f1d-455b-a91a-bed964424df4.gif)
+
+<br>
+<br>
+
 ## 프로젝트 소개
 
 <p align="justify">
@@ -68,68 +85,43 @@ pip install -r requirements.txt
 
 ```
 BLIP
-
  ┣ configs
- 
  ┃ ┣ bert_config.json
- 
  ┃ ┣ caption_coco.yaml
- 
  ┃ ┣ med_config.json
- 
  ┃ ┣ nlvr.yaml
- 
  ┃ ┣ nocaps.yaml
- 
  ┃ ┣ pretrain.yaml
- 
  ┃ ┣ retrieval_coco.yaml
- 
  ┃ ┣ retrieval_flickr.yaml
- 
  ┃ ┣ retrieval_msrvtt.yaml
- 
  ┃ ┗ vqa.yaml
- 
- ┣ static
- 
- ┃ ┣ image_set
- 
- ┃ ┣ background.jpg
- 
- ┃ ┣ checkbox.js
- 
- ┃ ┣ checklistWeb.js
- 
- ┃ ┣ DATA.json
- 
- ┃ ┣ divide.css
- 
- ┃ ┣ loading.js
- 
- ┃ ┣ multi.js
- 
- ┃ ┣ multiCSS.css
- 
- ┃ ┗ style.css
- 
- ┣ templates
- 
- ┃ ┣ appWeb.html
- 
- ┃ ┗ reload.html
- 
- ┣ transform
- 
- ┃ ┗ randaugment.py
- 
- ┣ __pycache__
- 
- ┃ ┗ app.cpython-39.pyc
- 
- ┣ final.py
- 
- ┗ requirements.txt
+ ┣ models
+ ┃ ┣ __pycache__
+ ┃ ┃ ┣ blip.cpython-38.pyc
+ ┃ ┃ ┣ blip.cpython-39.pyc
+ ┃ ┃ ┣ blip_vqa.cpython-38.pyc
+ ┃ ┃ ┣ blip_vqa.cpython-39.pyc
+ ┃ ┃ ┣ med.cpython-38.pyc
+ ┃ ┃ ┣ med.cpython-39.pyc
+ ┃ ┃ ┣ vit.cpython-38.pyc
+ ┃ ┃ ┣ vit.cpython-39.pyc
+ ┃ ┃ ┣ __init__.cpython-38.pyc
+ ┃ ┃ ┗ __init__.cpython-39.pyc
+ ┃ ┣ blip.py
+ ┃ ┣ blip_itm.py
+ ┃ ┣ blip_nlvr.py
+ ┃ ┣ blip_pretrain.py
+ ┃ ┣ blip_retrieval.py
+ ┃ ┣ blip_vqa.py
+ ┃ ┣ med.py
+ ┃ ┣ nlvr_encoder.py
+ ┃ ┣ vit.py
+ ┃ ┗ __init__.py
+ ┣ image_set 
+ ┣ answer.txt
+ ┗ final.py
+requirements.txt
 ```
 <br>
 <br>
