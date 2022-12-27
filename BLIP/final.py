@@ -33,7 +33,7 @@ import json
 bigCateList =["FOOD", "VEHICLE", "ANIMAL", "SPORTS", "FURNITURE", "ETC"]
 
 bigCateAnswer = random.choice(bigCateList)
-#bigCateRandom = random.choice(bigCateList)
+
 
 #하위 카테고리
 
@@ -71,10 +71,6 @@ tmp_answer= " ".join(answerPic)
 tmp_answer2 = tmp_answer.replace("\\","//")
 answerPic = []
 answerPic = tmp_answer2.split()
-
-print(answerPic)
-print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-
 
 ### Easy버전
 
@@ -126,45 +122,17 @@ while len(Number3) < 3 :     # 3x3이라서 8개(정답 제외)의 '같은 카�
         img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(a)])
         CateList.append(smallCateAnswer)        #AA
 
-
-print(len(img_arrs))        #9개 들어옴
-
-# print(answerPic[0])         #img_blip[answer_num]
-
-
-# #shuffle
-# print(img_arrs)
 img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
-
-
-
-
-
-
-# print(img_arrs_shuffle.index(answerPic))        #정답 그림 인덱스 
-
-# print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][0])  #정답 하나
-
 
 img_arrs_shuffle_img = []
 for i in range(9):
     img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
 
-print("first")
-print(img_arrs_shuffle_img)
 # ### Hard버전
-
-
-
 
 temp_str = ' '.join(img_arrs_shuffle_img)
 
-print(temp_str)
-print("======================")
-
 temp_str2 = temp_str.replace("\\", "//")
-
-print(temp_str2)
 
 img_arrs_shuffle_img = []
 img_arrs_shuffle_img = temp_str2.split()
@@ -191,7 +159,6 @@ def load_demo_image(image_dir,image_size,device):
 
 import base64
 
-#print(str(encoded_string))
 
 image_list = ""     #인코딩
 
@@ -201,10 +168,8 @@ for img in img_arrs_shuffle_img:
         image_list += str(encoded_string)
         image_list += " "
 
-print("IMAGE")
-#print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1:])
 img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1] = " ".join(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1:])
-print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1])
+
 
 #전역 변수 : captionset
 captionset = str(img_arrs_shuffle.index(answerPic)) + "*" + img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1] + '*' + image_list
@@ -231,9 +196,6 @@ model_=model_.to(device)
 
 
 def quest(question):
-    # answer =img_blip[answer_num]
-    # image=load_demo_image(answer,image_size=image_size,device=device)
-#    question="how many people is in the picture?"
 
     with torch.no_grad():
         answer=model_(tempimage,question,train=False,inference='generate')
@@ -311,10 +273,6 @@ def get_level():
 
 
     wordCnt = answerPic[1].count(" ")
-    print("CNT")
-    print(wordCnt)
-    print(type(wordCnt))
-
 
     if(level == "Easy"):   ###Easy버전
 
@@ -358,12 +316,6 @@ def get_level():
 
         #    sameCatePic = json_file[bigCateAnswer][smallCateAnswer]         #같은 카테고리
             wordCnt = answerPic[1].count(" ")
-
-
-        print("000000")
-        print(answerPic)
-        print(wordCnt)
-
 
         if(combo == 1 or combo == 2 or combo == 3):        
 
@@ -412,26 +364,16 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(b)])
                     CateList.append(smallCateAnswer)        #AA
 
-            print(len(img_arrs))        #9개 들어옴
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
 
 
             img_arrs_shuffle_img = []
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
-            print("Easy\n")
-            print(img_arrs_shuffle_img)
-            
-            
+
             temp_str = ' '.join(img_arrs_shuffle_img)
 
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
 
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
@@ -485,26 +427,16 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(b)])
                     CateList.append(smallCateAnswer)        #AA
 
-            print(len(img_arrs))        #9개 들어옴
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
 
 
             img_arrs_shuffle_img = []
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
-            print("Easy\n")
-            print(img_arrs_shuffle_img)
-            
-            
+
             temp_str = ' '.join(img_arrs_shuffle_img)
 
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
 
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
@@ -556,25 +488,16 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(b)])
                     CateList.append(smallCateAnswer)        #AA
 
-            print(len(img_arrs))        #9개 들어옴
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
 
 
             img_arrs_shuffle_img = []
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
-            print("Easy\n")
-            print(img_arrs_shuffle_img)
-            
+
             temp_str = ' '.join(img_arrs_shuffle_img)
 
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
 
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
@@ -626,26 +549,16 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(b)])
                     CateList.append(smallCateAnswer)        #AA
 
-            print(len(img_arrs))        #9개 들어옴
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
 
 
             img_arrs_shuffle_img = []
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
-            print("Easy\n")
-            print(img_arrs_shuffle_img)
-            
             
             temp_str = ' '.join(img_arrs_shuffle_img)
 
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
 
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
@@ -707,11 +620,6 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(d)])
                     CateList.append(smallCateAnswer)        #AA
 
-
-            # print(len(img_arrs))        #9개 들어옴
-
-            # print(answerPic[0])         #img_blip[answer_num]
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
             # print(img_arrs_shuffle.index(answerPic))        #정답 그림 인덱스 
 
@@ -720,17 +628,9 @@ def get_level():
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
 
-            print("hard\n")
-            print(img_arrs_shuffle_img)
-            
             temp_str = ' '.join(img_arrs_shuffle_img)
 
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
 
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
@@ -783,11 +683,6 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(d)])
                     CateList.append(smallCateAnswer)        #AA
 
-
-            # print(len(img_arrs))        #9개 들어옴
-
-            # print(answerPic[0])         #img_blip[answer_num]
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
             # print(img_arrs_shuffle.index(answerPic))        #정답 그림 인덱스 
 
@@ -796,17 +691,9 @@ def get_level():
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
 
-            print("hard\n")
-            print(img_arrs_shuffle_img)
-            
             temp_str = ' '.join(img_arrs_shuffle_img)
 
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
 
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
@@ -859,30 +746,15 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(d)])
                     CateList.append(smallCateAnswer)        #AA
 
-
-            # print(len(img_arrs))        #9개 들어옴
-
-            # print(answerPic[0])         #img_blip[answer_num]
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
-            # print(img_arrs_shuffle.index(answerPic))        #정답 그림 인덱스 
 
-            # print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][0])  #정답 하나
             img_arrs_shuffle_img = []
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
 
-            print("hard\n")
-            print(img_arrs_shuffle_img)
-            
             temp_str = ' '.join(img_arrs_shuffle_img)
 
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
 
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
@@ -893,38 +765,6 @@ def get_level():
             CateList = [" "]
 
             img_arrs.append(answerPic)
-            # Number2 = []         # == lotto2
-
-            ### 어차피 랜덤 그림 없어서 주석 처리!
-            # while len(Number2) < 0 :     # 3x3이라서 8개(정답 제외)의 '랜덤 그림'
-            #     c = random.randint(1, 101)
-            #     if c not in Number2:
-            #         Number2.append(c)
-            #         bigCateRandom = random.choice(bigCateList)
-                
-            #         if(bigCateRandom == "FOOD"): 
-            #             smallCateList2 =["APPLE", "BANANA", "ORANGE", "CARROT", "PIZZA", "DONUT", "CAKE"]
-
-            #         elif (bigCateRandom == "VEHICLE"):
-            #             smallCateList2 =["BICYCLE", "CAR", "MOTORCYCLE", "AIRPLANE", "BUS", "TRAIN", "TRUCK", "BOAT"]
-            
-            #         elif(bigCateRandom == "ANIMAL"):
-            #             smallCateList2 =["BIRD", "CAT", "DOG", "HORSE", "SHEEP", "COW", "ELEPHANT", "BEAR", "ZEBRA", "GIRAFFE"]
-            
-            #         elif (bigCateRandom == "SPORTS"): 
-            #             smallCateList2 =["SKIS", "SNOWBOARD", "TENNIS", "SKATEBOARD"]
-            
-            #         elif (bigCateRandom == "FURNITURE"): 
-            #             smallCateList2 =["CHAIR", "BED", "TABLE", "TV", "CELL_PHONE", "BOOK", "CLOCK", "SCISSORS", "TEDDY_BEAR"]
-            
-            #         elif (bigCateRandom == "ETC"): 
-            #             smallCateList2 =["PERSON", "STOP_SIGN", "UMBRELLA"]
-                    
-            #         smallCateRandom = random.choice(smallCateList2)
-            #         CateList.append(smallCateRandom)        #AA
-
-            #         img_arrs.append(json_file[bigCateRandom][smallCateRandom][smallCateRandom.lower()+str(c)])
-                    
 
             Number3 = [answerNum]    #lotto3
 
@@ -935,44 +775,19 @@ def get_level():
                     img_arrs.append(json_file[bigCateAnswer][smallCateAnswer][smallCateAnswer.lower()+str(d)])
                     CateList.append(smallCateAnswer)        #AA
 
-
-            # print(len(img_arrs))        #9개 들어옴
-
-            # print(answerPic[0])         #img_blip[answer_num]
-
             img_arrs_shuffle = random.sample(img_arrs, len(img_arrs))
-            # print(img_arrs_shuffle.index(answerPic))        #정답 그림 인덱스 
 
-            # print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][0])  #정답 하나
             img_arrs_shuffle_img = []
             for i in range(9):
                 img_arrs_shuffle_img.append(img_arrs_shuffle[i][0])
 
-            print("hard\n")
-            print(img_arrs_shuffle_img)
-
-
             temp_str = ' '.join(img_arrs_shuffle_img)
-
-            print(temp_str)
-            print("======================")
-
             temp_str2 = temp_str.replace("\\", "//")
-
-            print(temp_str2)
-
             img_arrs_shuffle_img = []
             img_arrs_shuffle_img = temp_str2.split()
 
-
-
-
-
-
-
-
     import base64
-    #    print(str(encoded_string))
+
     global image_list     #인코딩
     image_list = ""
     for img in img_arrs_shuffle_img:    
@@ -988,26 +803,12 @@ def get_level():
     tempimage = image
     image_size=384
     image=load_demo_image(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][0],image_size=image_size,device=device)
-    
-    #img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1]=img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1:]
-
-    print(answerPic)
-    print("\n")
-    print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][0])
-    print("\n")
-    print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
-    print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1:])
 
     img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1] = " ".join(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1:])
-
-    print(img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1])
 
     global captionset
     captionset = str(img_arrs_shuffle.index(answerPic)) + '*' + img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1] + '*' + image_list
 
-
-
-#img_arrs_shuffle[img_arrs_shuffle.index(answerPic)][1]  #caption 
     return "success"
 
 
@@ -1026,8 +827,3 @@ def get_cap():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
-
-
-
-
-#처음 그림은 버리고, reload한 뒤에 그림 불러오면 될 듯,,?
