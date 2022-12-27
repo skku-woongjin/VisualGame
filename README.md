@@ -30,6 +30,75 @@ Vision-Language Pre-training(VLP)는 vision-language taks의 성능을 매우 �
 <br>
 <br>
 
+BLIP은 4가지의 model version이 존재하여 필요한 모델을 선택하여 사용하면 됩니다.
+
+ 1. Image Captioning
+ 2. VQA
+ 3. Feature Extraction
+ 4. Image Text Matching
+
+
+해당 기능을 확인하고 싶으면 [BLIP Colab](https://colab.research.google.com/github/salesforce/BLIP/blob/main/demo.ipynb#scrollTo=6835daef)에서 확인해보실 수 있습니다.
+
+이 외에도 [Web 데모](https://huggingface.co/spaces/Salesforce/BLIP)를 통해서도 확인해보실 수 있습니다.
+
+<br>
+<br>
+
+### BLIP 실행 방법 (Colab 기준)
+<br>
+<br>
+
+1. 우선 BLIP model에게 필요한 모듈을 설치해주고, BLIP의 github 주소를 git clone해줍니다.
+
+```
+# install requirements
+import sys
+if 'google.colab' in sys.modules:
+    print('Running in Colab.')
+    !pip3 install transformers==4.15.0 timm==0.4.12 fairscale==0.4.4
+    !git clone https://github.com/salesforce/BLIP
+    %cd BLIP
+```
+<br>
+
+2. img_url 부분에 본인이 원하는 이미지 주소를 첨부하고 셀을 재생시킵니다.
+
+```
+from PIL import Image
+import requests
+import torch
+from torchvision import transforms
+from torchvision.transforms.functional import InterpolationMode
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+def load_demo_image(image_size,device):
+    img_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/demo.jpg'    #본인이 원하는 이미지 주소 넣기
+    raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')   
+
+    w,h = raw_image.size
+    display(raw_image.resize((w//5,h//5)))
+    
+    transform = transforms.Compose([
+        transforms.Resize((image_size,image_size),interpolation=InterpolationMode.BICUBIC),
+        transforms.ToTensor(),
+        transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
+        ]) 
+    image = transform(raw_image).unsqueeze(0).to(device)   
+    return image
+ 
+```
+<br>
+
+3. 그 뒤 원하는 task의 셀을 재생하면 그에 맞는 답변을 해줍니다.
+
+
+
+<br>
+<br>
+<br>
+
 ## 프로젝트 소개
 
 <p align="justify">
@@ -127,8 +196,14 @@ requirements.txt
 <br>
 
 - final.py : 유니티와의 연동을 위한 파일입니다.
-- image_set : 게임에서 사용된 iamge_set 입니다. 추가적인 설명은 밑에서 진행하겠습니다.
+- image_set : 게임에서 사용된 image_set 폴더입니다. 추가적인 설명은 밑에서 진행하겠습니다.
+- configs, models : BLIP model을 구동하기 위해 필요한 파일들입니다.
 
+
+
+<br>
+<br>
+<br>
 
 ## 사용 예제
 
@@ -144,13 +219,15 @@ requirements.txt
 
 ### Process
 
-1. 게임이 시작되면, 난이도에 맞는 caption과 image를 선정하고, 다른 카테고리에 있는 이미지들은 랜덤으로 선정됩니다.
+1. 게임이 시작되면, 난이도에 맞는 caption과 이미지를 선정하고, 다른 카테고리에 있는 이미지들을 랜덤으로 선정합니다.
 
-2. 유저가 질문을 하면 request를 받아 서버에 전달합니다
+2. 정답 이미지와 함께 저장되어 있는 설명(caption)을 유저에게 전달하고, BLIP에게 정답 이미지를 전달해줍니다.
 
-3. BLIP 모델이 질문을 해석하여 정답을 도출하고, 다시 유니티로 전달해줍니다.
+3. 유저가 질문을 하면 request를 받아 서버에 전달합니다.
 
-4. 해당 그림을 맞춘다면, 다음 게임으로 넘어가지만, 틀릴 경우 목숨이 감소합니다.
+4. BLIP 모델이 질문을 해석하여 정답을 도출하고, 다시 유니티로 전달해줍니다.
+
+5. 해당 그림을 맞춘다면, 다음 게임으로 넘어가지만, 틀릴 경우 목숨이 감소합니다.
 
 <br>
 <br>
@@ -179,5 +256,16 @@ Response
 - COCO Image set을 이용하여 이미지들을 구성하였습니다.
 
   COCO Dataset Link : [COCO Dataset](https://cocodataset.org/#home)
+  
+  
+<br>
+<br>
+<br>
 
+## Reference
 
+- [BLIP 논문](https://arxiv.org/abs/2201.12086)
+
+- [BLIP Github](https://github.com/salesforce/BLIP)
+
+- [COCO Dataset](https://cocodataset.org/#home)
