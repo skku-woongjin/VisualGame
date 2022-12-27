@@ -9,8 +9,92 @@
 
 > 정답 그림에 대한 힌트(Caption)가 제공되고, 영어로 질문하면 visual question answering model인 ‘BLIP’이 질문에 대한 답변을 진행합니다.
 
-![vg바탕](https://user-images.githubusercontent.com/104834390/209525193-a965eaed-e5f9-4b63-adf6-155d823b2e1a.png)
 <br>
+<br>
+<br>
+
+## BLIP : Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation
+
+<br>
+
+[BLIP 논문](https://arxiv.org/abs/2201.12086)
+
+[BLIP Github](https://github.com/salesforce/BLIP)
+
+Vision-Language Pre-training(VLP)는 vision-language taks의 성능을 매우 향상시켜주었다. 하지만 현재 존재하는 pre-trained model들은 웹에서 수집된 image-text에 대한 dataset을 이용하는데, 이는 최적의 상태가 아닌 단점이 있다. 그리하여 소개될 모델인 ‘BLIP’은 새로운 VLP framework로, 불필요한 웹 data를 ‘bootstrapping’하는 방식을 이용하여 불필요한 정보를 효과적으로 제거하는 방식을 이용하였다.
+
+<br>
+
+![123](https://user-images.githubusercontent.com/104834390/209679867-8bfb6d54-2f1d-455b-a91a-bed964424df4.gif)
+
+<br>
+<br>
+
+BLIP은 4가지의 model version이 존재하여 필요한 모델을 선택하여 사용하면 됩니다.
+
+ 1. Image Captioning
+ 2. VQA
+ 3. Feature Extraction
+ 4. Image Text Matching
+
+
+해당 기능을 확인하고 싶으면 [BLIP Colab](https://colab.research.google.com/github/salesforce/BLIP/blob/main/demo.ipynb#scrollTo=6835daef)에서 확인해보실 수 있습니다.
+
+이 외에도 [Web 데모](https://huggingface.co/spaces/Salesforce/BLIP)를 통해서도 확인해보실 수 있습니다.
+
+<br>
+<br>
+
+### BLIP 실행 방법 (Colab 기준)
+<br>
+<br>
+
+1. 우선 BLIP model에게 필요한 모듈을 설치해주고, BLIP의 github 주소를 git clone해줍니다.
+
+```
+# install requirements
+import sys
+if 'google.colab' in sys.modules:
+    print('Running in Colab.')
+    !pip3 install transformers==4.15.0 timm==0.4.12 fairscale==0.4.4
+    !git clone https://github.com/salesforce/BLIP
+    %cd BLIP
+```
+<br>
+
+2. img_url 부분에 본인이 원하는 이미지 주소를 첨부하고 셀을 재생시킵니다.
+
+```
+from PIL import Image
+import requests
+import torch
+from torchvision import transforms
+from torchvision.transforms.functional import InterpolationMode
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+def load_demo_image(image_size,device):
+    img_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/demo.jpg'    #본인이 원하는 이미지 주소 넣기
+    raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')   
+
+    w,h = raw_image.size
+    display(raw_image.resize((w//5,h//5)))
+    
+    transform = transforms.Compose([
+        transforms.Resize((image_size,image_size),interpolation=InterpolationMode.BICUBIC),
+        transforms.ToTensor(),
+        transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
+        ]) 
+    image = transform(raw_image).unsqueeze(0).to(device)   
+    return image
+ 
+```
+<br>
+
+3. 그 뒤 원하는 task의 셀을 재생하면 그에 맞는 답변을 해줍니다.
+
+
+
 <br>
 <br>
 <br>
@@ -68,76 +152,59 @@ pip install -r requirements.txt
 
 ## 파일 구조
 
-📦BLIP
-
- ┣ 📂configs
- 
- ┃ ┣ 📜bert_config.json
- 
- ┃ ┣ 📜caption_coco.yaml
- 
- ┃ ┣ 📜med_config.json
- 
- ┃ ┣ 📜nlvr.yaml
- 
- ┃ ┣ 📜nocaps.yaml
- 
- ┃ ┣ 📜pretrain.yaml
- 
- ┃ ┣ 📜retrieval_coco.yaml
- 
- ┃ ┣ 📜retrieval_flickr.yaml
- 
- ┃ ┣ 📜retrieval_msrvtt.yaml
- 
- ┃ ┗ 📜vqa.yaml
- 
- ┣ 📂static
- 
- ┃ ┣ 📂image_set
- 
- ┃ ┣ 📜background.jpg
- 
- ┃ ┣ 📜checkbox.js
- 
- ┃ ┣ 📜checklistWeb.js
- 
- ┃ ┣ 📜DATA.json
- 
- ┃ ┣ 📜divide.css
- 
- ┃ ┣ 📜loading.js
- 
- ┃ ┣ 📜multi.js
- 
- ┃ ┣ 📜multiCSS.css
- 
- ┃ ┗ 📜style.css
- 
- ┣ 📂templates
- 
- ┃ ┣ 📜appWeb.html
- 
- ┃ ┗ 📜reload.html
- 
- ┣ 📂transform
- 
- ┃ ┗ 📜randaugment.py
- 
- ┣ 📂__pycache__
- 
- ┃ ┗ 📜app.cpython-39.pyc
- 
- ┣ 📜final.py
- 
- ┗ 📜requirements.txt
-
+```
+BLIP
+ ┣ configs
+ ┃ ┣ bert_config.json
+ ┃ ┣ caption_coco.yaml
+ ┃ ┣ med_config.json
+ ┃ ┣ nlvr.yaml
+ ┃ ┣ nocaps.yaml
+ ┃ ┣ pretrain.yaml
+ ┃ ┣ retrieval_coco.yaml
+ ┃ ┣ retrieval_flickr.yaml
+ ┃ ┣ retrieval_msrvtt.yaml
+ ┃ ┗ vqa.yaml
+ ┣ models
+ ┃ ┣ __pycache__
+ ┃ ┃ ┣ blip.cpython-38.pyc
+ ┃ ┃ ┣ blip.cpython-39.pyc
+ ┃ ┃ ┣ blip_vqa.cpython-38.pyc
+ ┃ ┃ ┣ blip_vqa.cpython-39.pyc
+ ┃ ┃ ┣ med.cpython-38.pyc
+ ┃ ┃ ┣ med.cpython-39.pyc
+ ┃ ┃ ┣ vit.cpython-38.pyc
+ ┃ ┃ ┣ vit.cpython-39.pyc
+ ┃ ┃ ┣ __init__.cpython-38.pyc
+ ┃ ┃ ┗ __init__.cpython-39.pyc
+ ┃ ┣ blip.py
+ ┃ ┣ blip_itm.py
+ ┃ ┣ blip_nlvr.py
+ ┃ ┣ blip_pretrain.py
+ ┃ ┣ blip_retrieval.py
+ ┃ ┣ blip_vqa.py
+ ┃ ┣ med.py
+ ┃ ┣ nlvr_encoder.py
+ ┃ ┣ vit.py
+ ┃ ┗ __init__.py
+ ┣ image_set 
+ ┣ answer.txt
+ ┗ final.py
+requirements.txt
+```
 <br>
 <br>
 
 - final.py : 유니티와의 연동을 위한 파일입니다.
-- image_set : 게임에서 사용된 iamge_set 입니다. 추가적인 설명은 밑에서 진행하겠습니다.
+- image_set : 게임에서 사용된 image_set 폴더입니다. 추가적인 설명은 밑에서 진행하겠습니다.
+- configs, models : BLIP model을 구동하기 위해 필요한 파일들입니다.
+- answer.txt : 정답 그림에 대한 경로를 임시저장하는 파일입니다.
 
+
+
+<br>
+<br>
+<br>
 
 ## 사용 예제
 
@@ -149,31 +216,23 @@ pip install -r requirements.txt
 
 3. 질문을 하면, Ai가 정답 그림에 대한 답변을 해주게 됩니다.<br>
 
-![vg1](https://user-images.githubusercontent.com/104834390/209526458-9d19addb-a991-47cc-84ac-2c1a3bf8e7e0.png)
-
 4. 정답인 것 같은 그림에 O 버튼을 드래그하여 문제를 맞출 수 있습니다.<br>
-
-![vg2](https://user-images.githubusercontent.com/104834390/209526620-e87a3b0a-93ac-4a35-ac58-6a425fa7b0a5.png)
 
 ### Process
 
-1. 게임이 시작되면, 난이도에 맞는 caption과 image를 선정하고, 다른 카테고리에 있는 이미지들은 랜덤으로 선정됩니다.
+1. 게임이 시작되면, 난이도에 맞는 caption과 이미지를 선정하고, 다른 카테고리에 있는 이미지들을 랜덤으로 선정합니다.
 
-2. 유저가 질문을 하면 request를 받아 서버에 전달합니다
+2. 정답 이미지와 함께 저장되어 있는 설명(caption)을 유저에게 전달하고, BLIP에게 정답 이미지를 전달해줍니다.
 
-3. BLIP 모델이 질문을 해석하여 정답을 도출하고, 다시 유니티로 전달해줍니다.
+3. 유저가 질문을 하면 request를 받아 서버에 전달합니다.
 
-4. 해당 그림을 맞춘다면, 다음 게임으로 넘어가지만, 틀릴 경우 목숨이 감소합니다.
+4. BLIP 모델이 질문을 해석하여 정답을 도출하고, 다시 유니티로 전달해줍니다.
+
+5. 해당 그림을 맞춘다면, 다음 게임으로 넘어가지만, 틀릴 경우 목숨이 감소합니다.
 
 <br>
 <br>
 <br>
-
-## 시연 영상
-
-- 파일 용량 이슈로, 2배속으로 진행하였습니다.
-
-https://user-images.githubusercontent.com/104834390/209529166-473830ea-8ba8-422f-a445-8dd98aa598b1.mov
 
 
 ## API 설명
@@ -197,40 +256,17 @@ Response
 
 - COCO Image set을 이용하여 이미지들을 구성하였습니다.
 
-- 6가지의 카테고리로 나누었고, 그 안에서 또 세부적으로 나누었습니다.
-
-### Iamge Categories
-
- ┣ 📂ANIMAL
- 
- ┃ ┣ 📂bear, bird, cat, cow, dog, elephant, giraffe, horse, sheep, zebra
- 
- ┣ 📂ETC
- 
- ┃ ┣ 📂person, stop_sign, umbrella
- 
- ┣ 📂FOOD
- 
- ┃ ┣ 📂apple, banana, cake, carrot, donut, orange, pizza
- 
- ┣ 📂FURNITURE
- 
- ┃ ┣ 📂bed, bench, book, cell_phone, chair, clock, scissors, table, teddy_bear, tv
- 
- ┣ 📂SPORTS
- 
- ┃ ┣ 📂skateboard, skis, snowboard, tennis
- 
- ┣ 📂VEHICLE
- 
- ┃ ┣ 📂airplane, bicycle, boat, bus, car, motorcycle, train, truck
- 
- 
+  COCO Dataset Link : [COCO Dataset](https://cocodataset.org/#home)
+  
+  
 <br>
-- 상위 카테고리 : ANIMAL, ETC, FOOD, FURNITURE, SPORTS, VEHICLE
+<br>
+<br>
 
-- 하위 카테고리 : 상위 폴더 밑에 있는 카테고리 (bear, bird, cat ...) 
+## Reference
 
-- 하위 카테고리 안에 각각 100가지의 그림들이 들어가 있습니다.
+- [BLIP 논문](https://arxiv.org/abs/2201.12086)
 
-- 난이도 조절에서 선택되는 같은 카테고리의 기준은 하위 카테고리입니다.
+- [BLIP Github](https://github.com/salesforce/BLIP)
+
+- [COCO Dataset](https://cocodataset.org/#home)
