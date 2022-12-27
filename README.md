@@ -198,6 +198,7 @@ requirements.txt
 - final.py : 유니티와의 연동을 위한 파일입니다.
 - image_set : 게임에서 사용된 image_set 폴더입니다. 추가적인 설명은 밑에서 진행하겠습니다.
 - configs, models : BLIP model을 구동하기 위해 필요한 파일들입니다.
+- answer.txt : 정답 그림에 대한 경로를 임시저장하는 파일입니다.
 
 
 
