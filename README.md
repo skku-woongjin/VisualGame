@@ -66,70 +66,71 @@ pip install -r requirements.txt
 
 ## 파일 구조
 
-📦BLIP
+```
+BLIP
 
- ┣ 📂configs
+ ┣ configs
  
- ┃ ┣ 📜bert_config.json
+ ┃ ┣ bert_config.json
  
- ┃ ┣ 📜caption_coco.yaml
+ ┃ ┣ caption_coco.yaml
  
- ┃ ┣ 📜med_config.json
+ ┃ ┣ med_config.json
  
- ┃ ┣ 📜nlvr.yaml
+ ┃ ┣ nlvr.yaml
  
- ┃ ┣ 📜nocaps.yaml
+ ┃ ┣ nocaps.yaml
  
- ┃ ┣ 📜pretrain.yaml
+ ┃ ┣ pretrain.yaml
  
- ┃ ┣ 📜retrieval_coco.yaml
+ ┃ ┣ retrieval_coco.yaml
  
- ┃ ┣ 📜retrieval_flickr.yaml
+ ┃ ┣ retrieval_flickr.yaml
  
- ┃ ┣ 📜retrieval_msrvtt.yaml
+ ┃ ┣ retrieval_msrvtt.yaml
  
- ┃ ┗ 📜vqa.yaml
+ ┃ ┗ vqa.yaml
  
- ┣ 📂static
+ ┣ static
  
- ┃ ┣ 📂image_set
+ ┃ ┣ image_set
  
- ┃ ┣ 📜background.jpg
+ ┃ ┣ background.jpg
  
- ┃ ┣ 📜checkbox.js
+ ┃ ┣ checkbox.js
  
- ┃ ┣ 📜checklistWeb.js
+ ┃ ┣ checklistWeb.js
  
- ┃ ┣ 📜DATA.json
+ ┃ ┣ DATA.json
  
- ┃ ┣ 📜divide.css
+ ┃ ┣ divide.css
  
- ┃ ┣ 📜loading.js
+ ┃ ┣ loading.js
  
- ┃ ┣ 📜multi.js
+ ┃ ┣ multi.js
  
- ┃ ┣ 📜multiCSS.css
+ ┃ ┣ multiCSS.css
  
- ┃ ┗ 📜style.css
+ ┃ ┗ style.css
  
- ┣ 📂templates
+ ┣ templates
  
- ┃ ┣ 📜appWeb.html
+ ┃ ┣ appWeb.html
  
- ┃ ┗ 📜reload.html
+ ┃ ┗ reload.html
  
- ┣ 📂transform
+ ┣ transform
  
- ┃ ┗ 📜randaugment.py
+ ┃ ┗ randaugment.py
  
- ┣ 📂__pycache__
+ ┣ __pycache__
  
- ┃ ┗ 📜app.cpython-39.pyc
+ ┃ ┗ app.cpython-39.pyc
  
- ┣ 📜final.py
+ ┣ final.py
  
- ┗ 📜requirements.txt
-
+ ┗ requirements.txt
+```
 <br>
 <br>
 
@@ -147,11 +148,7 @@ pip install -r requirements.txt
 
 3. 질문을 하면, Ai가 정답 그림에 대한 답변을 해주게 됩니다.<br>
 
-![vg1](https://user-images.githubusercontent.com/104834390/209526458-9d19addb-a991-47cc-84ac-2c1a3bf8e7e0.png)
-
 4. 정답인 것 같은 그림에 O 버튼을 드래그하여 문제를 맞출 수 있습니다.<br>
-
-![vg2](https://user-images.githubusercontent.com/104834390/209526620-e87a3b0a-93ac-4a35-ac58-6a425fa7b0a5.png)
 
 ### Process
 
@@ -166,12 +163,6 @@ pip install -r requirements.txt
 <br>
 <br>
 <br>
-
-## 시연 영상
-
-- 파일 용량 이슈로, 2배속으로 진행하였습니다.
-
-https://user-images.githubusercontent.com/104834390/209529166-473830ea-8ba8-422f-a445-8dd98aa598b1.mov
 
 
 ## API 설명
